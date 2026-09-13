@@ -21,7 +21,7 @@ BWA-MEM	≥ 0.7.17	read mapping
 samtools	≥ 1.10	BAM conversion/sorting/indexing
 BBMap repair.sh	≥ 38	restore read pairing
 Stacks	2.2	gstacks, populations
-Python 3	≥ 3.8	helper scripts list_maker_1st.py, short_read_remover.py
+Python 3	≦ 3.6 (e.g. 3.6.13)	helper scripts list_maker_1st.py, short_read_remover.py
 
 Add all tools to $PATH or specify absolute paths inside the scripts.
 
@@ -33,16 +33,15 @@ work_dir	main working directory	/Users/heliopora/work
 read_dir	raw FASTQ location	/Users/heliopora/migseq/Gizeru/raw
 genome	reference FASTA	/Users/heliopora/migseq/refGenome/Seashell/Estearnsii_consensus500.fa
 popmap_file	Stacks population map	/Users/heliopora/migseq/Gizeru/no_utsumi_popmap.txt
+local/bin path /Users/heliopora/local/bin/
 t	threads used by BWA/Stacks	4
 
 Intermediate folders (i/ ii/ iii/ trimed/, repair/, mapping/, etc.) are created automatically and deleted at the end to save disk space.
 
 4. Usage
-bash
-コピーする
-編集する
+Please, dawnload code and cp to /local/bin. Please modify the script as needed.
 # 1. Make scripts executable
-chmod +x mig_mapping1.sh mig_mapping2.sh
+chmod +x 777 mig_mapping1.sh mig_mapping2.sh
 
 # 2. Run QC + Mapping
 bash mig_mapping1.sh      # creates trimmed FASTQ, BAM, BAM index
@@ -63,7 +62,7 @@ Script	Role
 list_maker_1st.py	converts a list of R1 filenames into sample basenames
 short_read_remover.py	discards reads shorter than a user-defined threshold (default 80 bp)
 
-Place them in the directory indicated in each script (/Users/heliopora/local/bin/).
+Place them in the directory indicated in each script (/local/bin/).
 
 7. Tuning & Troubleshooting
 Scenario	What to change
@@ -75,7 +74,18 @@ Stacks population thresholds	change -r, --max_obs_het, --min_maf options in popu
 Check stderr logs; most issues come from wrong file paths or missing tools.
 
 8. Attribution
-Original scripts by Hideaki Yuasa & Hiroki Taninaka (Nov 13 2019). Minor edits and this README prepared by ChatGPT for Nina Yasuda’s project.
+Original scripts by Hideaki Yuasa & Hiroki Taninaka (Nov 13 2019). Minor edits and this README prepared by ChatGPT and Gemini for Nina Yasuda’s project.
+
+The following is an example of how to set up the environment to run this analysis.
+CONDA_SUBDIR=osx-64 conda create -n migseq_env 
+conda activate migseq_env
+conda config --env --set subdir osx-64 
+conda install -c bioconda bwa=0.7.17   
+conda install -c bioconda samtools=1.10  
+conda install -c bioconda python=3.8
+conda install -c bioconda cutadapt=1.13
+conda install -c bioconda stacks=2.2   
+conda install -c bioconda fastx_toolkit=0.0.14
 
 日本語 README
 1. 概要
@@ -97,7 +107,7 @@ BWA-MEM	0.7.17 以上	マッピング
 samtools	1.10 以上	BAM 変換・ソート・インデックス
 BBMap repair.sh	38 系	ペアリード修復
 Stacks	2.2	gstacks, populations
-Python 3	3.8 以上	補助スクリプト実行
+Python 3	3.6 以下	補助スクリプト実行
 
 各ツールは $PATH に通すか、スクリプト内に絶対パスで指定してください。
 
@@ -109,16 +119,16 @@ work_dir	作業用トップディレクトリ	/Users/heliopora/work
 read_dir	生 FASTQ 置き場	/Users/heliopora/migseq/Gizeru/raw
 genome	参照ゲノム FASTA	/Users/heliopora/migseq/refGenome/Seashell/Estearnsii_consensus500.fa
 popmap_file	Stacks 用 popmap	/Users/heliopora/migseq/Gizeru/no_utsumi_popmap.txt
+local/binのパスの指定 /Users/heliopora/local/bin/
 t	使用スレッド数	4
 
 中間フォルダは自動生成後に削除され、容量を節約します。
 
 4. 使い方
-bash
-コピーする
-編集する
+コードをダウンロードし、/local/bin内にコピーしてください。必要に応じてスクリプトを変更してください。
+
 # 実行権付与
-chmod +x mig_mapping1.sh mig_mapping2.sh
+chmod +x 777 mig_mapping1.sh mig_mapping2.sh
 
 # ① QC とマッピング
 bash mig_mapping1.sh
@@ -139,7 +149,7 @@ stacks/	Stacks カタログ、VCF、STRUCTURE 形式ファイル
 list_maker_1st.py	R1 ファイル名の一覧からサンプル名を抽出
 short_read_remover.py	長さ閾値（標準 80 bp）未満のリードを除外
 
-指定パス（/Users/heliopora/local/bin/）に配置してください。
+指定パス（/local/bin/）に配置してください。
 
 7. よくある調整ポイント
 目的	変更箇所
@@ -149,4 +159,15 @@ QC の厳しさ緩和	fastq_quality_filter の -q -p 値を下げる
 Stacks パラメータ調整	populations の -r --max_obs_het --min_maf 変更
 
 エラー時はパス・ツールの存在をまず確認してください。
+
+この解析を実行するための環境構築の例を以下に示します。
+CONDA_SUBDIR=osx-64 conda create -n migseq_env 
+conda activate migseq_env
+conda config --env --set subdir osx-64 
+conda install -c bioconda bwa=0.7.17   
+conda install -c bioconda samtools=1.10  
+conda install -c bioconda python=3.8
+conda install -c bioconda cutadapt=1.13
+conda install -c bioconda stacks=2.2   
+conda install -c bioconda fastx_toolkit=0.0.14
 
