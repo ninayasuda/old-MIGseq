@@ -43,4 +43,4 @@ do
 
 done < filelist1.txt >> read_count_summary.tsv
 
-#このコードはchatGPTを使いながら作成しました。
+#このコードはchatGPTを使いながら作成されました。
