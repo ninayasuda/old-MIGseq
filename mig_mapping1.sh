@@ -28,8 +28,7 @@ do
 	python /Users/heliopora/local/bin/short_read_remover.py ./iii/${line}_L001_R1_001.fastq 80 > ./trimed/${line}.1.fastq &
 	#reverse側
 	#頭15bpのトリム
-　　　　fastx_trimmer -Q 33 -f 0  -i ${read_dir}/${line}_L001_R2_001.fastq -o ./i/${line}_L001_R2_001.fastq
-	#元のスクリプト：fastx_trimmer -Q 33 -f 15 -i ${read_dir}/${line}_L001_R2_001.fastq -o ./i/${line}_L001_R2_001.fastq
+	fastx_trimmer -Q 33 -f 15 -i ${read_dir}/${line}_L001_R2_001.fastq -o ./i/${line}_L001_R2_001.fastq
 	#low qualityをトリム
 	fastq_quality_filter -v -Q 33 -q 30 -p 40 -i ./i/${line}_L001_R2_001.fastq -o ./ii/${line}_L001_R2_001.fastq
 	#index配列のトリム
