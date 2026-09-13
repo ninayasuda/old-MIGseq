@@ -11,7 +11,7 @@ t=4
 
 #Stacks2.2解析
 gstacks -I ./mapping/ -M $popmap_file -O ./stacks/ -t $t
-populations -P ./stacks/ -M $popmap_file -r 0.7 --max_obs_het 0.7 --min_maf 0.01 --vcf --structure -t $t 
+populations -P ./stacks/ -M $popmap_file -r 0.7 --max_obs_het 0.99 --min_maf 0.01 --vcf --structure -t $t 
 
 #中間ディレクトリを削除
 rm -r repair &
